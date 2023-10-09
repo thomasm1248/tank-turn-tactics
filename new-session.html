@@ -4,6 +4,18 @@
     <title>Tank Turn Tactics</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/style.css">
+    <script>
+
+var l = id => document.getElementById(id);
+
+function restoreDefaults() {
+    l("width").value = "20";
+    l("height").value = "15";
+    l("action-point-freq").value = "1";
+    l("time-unit").value = "days";
+}
+
+    </script>
 </head>
 <body>
     <div id="container">
@@ -17,6 +29,9 @@
         </nav>
 
         <main>
+
+            <h2>New Session</h2>
+
             <form action="POST">
 
                 <label for="session-name">Session Name:</label>
@@ -39,8 +54,14 @@
                     </select>
                 </label><br>
 
-                <input id="reset" type="reset" value="Reset Defaults">
-                <input id="submit" type="submit" value="Submit">
+                <input id="admin-name" name="admin-name" type="text" placeholder="admin username"><br>
+
+                <input id="password" name="password" type="password" placeholder="password"><br>
+
+                <input id="confirm-password" type="password" placeholder="confirm password"><br>
+
+                <button id="reset" type="button" onclick="restoreDefaults()">Restore Defaults</button>
+                <input id="submit" type="submit" value="Create New Session">
 
             </form>
         </main>
