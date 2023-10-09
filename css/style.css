@@ -2,6 +2,99 @@
 
 body {
     margin: 0;
-    margin-left: 200px;
     padding: 0;
+}
+
+/* Page layout rules */
+
+#container {
+}
+
+header {
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 3em;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 25em;
+    height: 100%;
+}
+
+main {
+    padding-top: 5em;
+    margin-left: 40em;
+    padding-right: 20em;
+    padding-bottom: 10em;
+}
+
+/* Header rules */
+
+header {
+    width: 0;
+    overflow: wrap;
+}
+
+header h1 {
+    color: #cdd0d3;
+    font-size: 4em;
+}
+
+/* Nav rules */
+
+nav {
+    background-color: #202c2e;
+    padding-top: 20em;
+    padding-left: 5em;
+}
+
+nav ul {
+}
+
+nav li {
+    list-style-type: none;
+    margin: 1em 0;
+}
+
+nav li a {
+    text-decoration: none;
+    color: #cdd0d3;
+    font-size: 2em;
+}
+
+nav li a:hover {
+    background-color: #cdd0d3;
+    color: #202c2e;
+}
+
+/* Main rules */
+
+main {
+}
+
+main h2 {
+    font-size: 3em;
+}
+
+main h3 {
+    font-size: 2em;
+}
+
+main p, main li, main label, main input, main button {
+    font-size: 1.5em;
+    margin-top: 0.6em;
+}
+
+main textarea {
+    font-size: 2em;
+    margin-top: 0.6em;
+}
+
+main input[type="number"], main select, main option {
+    font-size: 1em;
+    margin-top: 0.6em;
 }

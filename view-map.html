@@ -3,15 +3,68 @@
 <head>
     <title>Tank Turn Tactics</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+
+/* This page has its own stylesheet */
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Canvas rules */
+
+canvas {
+    outline: 1px solid black;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Info box rules */
+
+div {
+    z-index: -1;
+    position: absolute;
+    background-color: #131416;
+    width: 25em;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    padding: 2em 2em;
+}
+
+div h2 {
+    color: #62788d;
+    font-size: 1.5em;
+}
+
+div h3 {
+    color: #62788d;
+    font-size: 1.3em;
+}
+
+div p {
+    color: #62788d;
+    font-size: 1.1em;
+}
+
+    </style>
 </head>
 <body>
 
+    <!-- use javascript to put various things in this box such as player stats and global action log when things on the map are clicked -->
+    <div id="info-box">
+        <!-- Demo elements -->
+        <h2>Big Fat Tank</h2>
+        <!-- add one to three images of hearts to show the number of lives the player has left -->
+        <div id="lives"></div>
+        <h3>Action Points: 3</h3>
+        <p>I'm just a friendly tank that doesn't want any trouble. Email me at bigtank@gmail.com if you want to make any alliances.</p>
+    </div>
+
     <!-- draw the map on this canvas -->
     <canvas id="map-viewer"></canvas>
-
-    <!-- use javascript to put various things in this box such as player stats and global action log when things on the map are clicked -->
-    <div id="info-box"></div>
 
     <script src="map-viewer.js"></script>
 
