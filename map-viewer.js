@@ -110,6 +110,13 @@ function drawMap() {
         ctx.restore();
     }
 }
+function displayLog() {
+    var content = "<h2>Action Log</h2>";
+    for(var i = 0; i < data.log.length; i++) {
+        content += "<h3>"+data.log[i].tank+"</h3><p>"+data.log[i].action+"</p>";
+    }
+    infoBox.innerHTML = content;
+}
 
 // The draw function that repeats every animation frame
 function draw() {
@@ -180,12 +187,7 @@ canvas.addEventListener("click", function(e) {
         cell.y = Math.floor(cell.y);
         var cellContents = map[cell.x][cell.y];
         if(cellContents === undefined) {
-            // Display log
-            var content = "";
-            for(var i = 0; i < data.log.length; i++) {
-                content += "<h3>"+data.log[i].tank+"</h3><p>"+data.log[i].action+"</p>";
-            }
-            infoBox.innerHTML = content;
+            displayLog();
         } else {
             // Display tank info
             var tank = cellContents;
@@ -193,6 +195,9 @@ canvas.addEventListener("click", function(e) {
         }
     }
 }, false);
+
+// Display the log
+displayLog();
 
 // Start running the animation function
 draw();
