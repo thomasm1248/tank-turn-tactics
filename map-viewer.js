@@ -192,6 +192,12 @@ canvas.addEventListener("click", function(e) {
             // Display tank info
             var tank = cellContents;
             infoBox.innerHTML = "<h2>"+tank.name+"</h2><div id='lives'></div><h3>Action Points: "+tank.action_points+"</h3><p>"+tank.bio+"</p>";
+            // Display a heart for each life the tank has
+            var images = "";
+            for(var i = 0; i < tank.lives; i++) {
+                images += "<img class='life-heart' src='images/heart.png'>";
+            }
+            document.getElementById("lives").innerHTML = images;
         }
     }
 }, false);
