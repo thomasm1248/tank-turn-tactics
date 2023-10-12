@@ -73,6 +73,12 @@ function moveCam(xOffset, yOffset) {
     cam.x += (xOffset) / cam.zoom;
     cam.y += (yOffset) / cam.zoom;
 };
+function bindCamToBox() {
+    if(cam.x < 0) cam.x = 0;
+    if(cam.y < 0) cam.y = 0;
+    if(cam.x > data.map.width) cam.x = data.map.width;
+    if(cam.y > data.map.height) cam.y = data.map.height;
+};
 
 // Main logic functions
 function drawMap() {
@@ -157,10 +163,16 @@ canvas.addEventListener("mousemove", function(e) {
     // Move camera
     if(mouse.down) {
         moveCam(mouse.prevX - mouse.x, mouse.prevY - mouse.y);
+        // Don't let user move camera out of box
+        bindCamToBox();
     }
 }, false);
 canvas.addEventListener("gestureend", function(e) {
     cam.zoom *= e.scale;
+    // Don't let user zoom out too much
+    if(cam.zoom < config.minzoom) cam.zoom = config.minzoom;
+    // Don't let user zoom in too much
+    if(cam.zoom > config.maxzoom) cam.zoom = config.maxzoom;
 }, false);
 canvas.addEventListener("wheel", function(e) {
     // Get mouse's location
@@ -179,6 +191,8 @@ canvas.addEventListener("wheel", function(e) {
     }
     // Move mouse's location back
     moveCam(-m.x, -m.y);
+    // Don't let zooming move the camera outside of box
+    bindCamToBox();
 }, false);
 canvas.addEventListener("click", function(e) {
     var diff = {
