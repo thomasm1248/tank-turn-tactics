@@ -1,6 +1,8 @@
 
 // Settings
 var config = {
+    maxzoom: 150,
+    minzoom: 20,
     clickpositionthreshold: 1,
     axismarkercolor: "gray",
     axistextstyle: "0.4px Arial",
@@ -168,8 +170,12 @@ canvas.addEventListener("wheel", function(e) {
     // Zoom
     if(e.deltaY > 0) {
         cam.zoom *= 0.9;
+        // Don't let user zoom out too much
+        if(cam.zoom < config.minzoom) cam.zoom = config.minzoom;
     } else if(e.deltaY < 0) {
         cam.zoom /= 0.9;
+        // Don't let user zoom in too much
+        if(cam.zoom > config.maxzoom) cam.zoom = config.maxzoom;
     }
     // Move mouse's location back
     moveCam(-m.x, -m.y);
