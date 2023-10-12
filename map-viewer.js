@@ -205,7 +205,10 @@ canvas.addEventListener("click", function(e) {
         var cell = getCamMouse();
         cell.x = Math.floor(cell.x);
         cell.y = Math.floor(cell.y);
-        var cellContents = map[cell.x][cell.y];
+        var cellContents;
+        if(map[cell.x] !== undefined) {
+            cellContents = map[cell.x][cell.y];
+        }
         if(cellContents === undefined) {
             displayLog();
         } else {
