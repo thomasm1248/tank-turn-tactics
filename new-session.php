@@ -34,7 +34,7 @@ function restoreDefaults() {
 
             <h2>New Session</h2>
 
-            <form action="POST">
+            <form action="create-session.php">
 
                 <label for="session-name">Session Name:</label>
                 <input id="session-name" name="session-name" type="text"><br>
