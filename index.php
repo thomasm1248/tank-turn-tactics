@@ -13,12 +13,9 @@
         </header>
 
         <nav>
-            <!-- put nav-insert.html here -->
-<ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="rules.html">Rules</a></li>
-    <li><a href="new-session.html">New Session</a></li>
-</ul>
+            <?php
+                include("nav-insert.html");
+            ?>
         </nav>
 
         <main>

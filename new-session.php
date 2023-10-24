@@ -25,7 +25,9 @@ function restoreDefaults() {
         </header>
 
         <nav>
-            <!-- put nav-insert.html here -->
+            <?php
+                include("nav-insert.html");
+            ?>
         </nav>
 
         <main>
