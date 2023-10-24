@@ -13,10 +13,19 @@
         </header>
 
         <nav>
-            <!-- put nav-insert.html here -->
+            <?php
+                include("nav-insert.html");
+            ?>
         </nav>
 
         <main>
+            
+            <h2><!-- Session Name -->Tanks Forever</h2>
+
+            <p>That name is already taken.</p>
+
+            <!-- add a link back to the session join page -->
+            <a href="">Back</a>
         </main>
 
     </div>
