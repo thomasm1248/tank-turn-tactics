@@ -1,7 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Tank Turn Tactics</title>
+
+    <?php
+    
+        // Connect to database
+        $host = "localhost";
+        $username = "root";
+        $password = "";
+        $database = "Game";
+        $conn = mysqli_connect($host, $username, $password, $database);
+        // Check if connection was successful
+        if (!$conn) {
+            print("fail");
+        }
+
+        // Get session information
+        if(!isset($pagecode)) {
+            $pagecode = $_GET['session'];
+        }
+
+        // Get table row for session
+        $sql = "SELECT `name`, `status` FROM `Sessions` WHERE `pagecode` = $pagecode;";
+        $result = mysqli_query($conn, $sql);
+        if(mysqli_num_rows($result)) {
+            $row = mysqli_fetch_array($result);
+            $sessionname = $row["name"];
+        } else {
+            $sessionname = "Error: Invalid URL";
+        }
+
+    ?>
+
+    <title><?php print($sessionname); ?></title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -19,36 +50,6 @@
         </nav>
 
         <main>
-
-            <?php
-            
-                // Connect to database
-                $host = "localhost";
-                $username = "root";
-                $password = "";
-                $database = "Game";
-                $conn = mysqli_connect($host, $username, $password, $database);
-                // Check if connection was successful
-                if (!$conn) {
-                    print("fail");
-                }
-
-                // Get session information
-                if(!isset($pagecode)) {
-                    $pagecode = $_GET['session'];
-                }
-
-                // Get table row for session
-                $sql = "SELECT `name`, `status` FROM `Sessions` WHERE `pagecode` = $pagecode;";
-                $result = mysqli_query($conn, $sql);
-                if(mysqli_num_rows($result)) {
-                    $row = mysqli_fetch_array($result);
-                    $sessionname = $row["name"];
-                } else {
-                    $sessionname = "Error: Invalid URL";
-                }
-
-            ?>
             
             <h2><?php print($sessionname); ?></h2>
 
