@@ -59,16 +59,13 @@ while(spotTaken($x, $y, $xs, $ys)) {
     }
 }
 
-print("foo");
 // Add new player to database
 $sql = "INSERT INTO `Tanks`(`name`, `pagecode`, `partofsession`, `bio`, `x`, `y`) VALUES ('$playername', $playercode, $sessionid, '$bio', $x, $y);";
-print($sql);
 $result = mysqli_query($conn, $sql);
 mysqli_close($conn);
-print("baz");
 
 // Redirect to join success page
-include('join-success.php');
-header("Location: $url/join-success.php?session=$pagecode");
+include('player-dashboard.php');
+header("Location: $url/player-dashboard.php?session=$pagecode&player=$playercode");
 
 ?>

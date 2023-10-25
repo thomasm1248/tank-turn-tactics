@@ -98,3 +98,7 @@ main input[type="number"], main select, main option {
     font-size: 1em;
     margin-top: 0.6em;
 }
+
+.life-heart {
+    width: 3em;
+}
