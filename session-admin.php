@@ -57,9 +57,9 @@
             <h3>Status:</h3>
             <p><?php print($status);?></p>
 
-            <!-- Start session button should only be visible when the session hasn't started yet -->
-            <button id="start-session">Start Session</button><br>
-
+            <?php if($status === 'waiting') { ?>
+                <button id="start-session">Start Session</button><br>
+            <?php } ?>
             <button id="end-session">End Session</button>
             
             <h3>Players</h3>
