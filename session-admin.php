@@ -19,11 +19,43 @@
         </nav>
 
         <main>
+
+            <?php
             
-            <h2>Session Admin</h2>
+                // Connect to database
+                $host = "localhost";
+                $username = "root";
+                $password = "";
+                $database = "Game";
+                $conn = mysqli_connect($host, $username, $password, $database);
+                // Check if connection was successful
+                if (!$conn) {
+                    print("fail");
+                }
+
+                // Get session information
+                if(!isset($pagecode)) {
+                    $pagecode = $_GET['session'];
+                    $admincode = $_GET['admin'];
+                }
+
+                // Get table row for session
+                $sql = "SELECT `name`, `status` FROM `Sessions` WHERE `pagecode` = $pagecode AND `admincode` = $admincode;";
+                $result = mysqli_query($conn, $sql);
+                if(mysqli_num_rows($result)) {
+                    $row = mysqli_fetch_array($result);
+                    $sessionname = $row["name"];
+                    $status = $row["status"];
+                } else {
+                    $sessionname = "Error: Invalid URL";
+                }
+
+            ?>
+            
+            <h2><?php print($sessionname);?>: Session Admin</h2>
 
             <h3>Status:</h3>
-            <p><!-- Session status -->Not Started Yet</p>
+            <p><?php print($status);?></p>
 
             <!-- Start session button should only be visible when the session hasn't started yet -->
             <button id="start-session">Start Session</button><br>
@@ -75,6 +107,10 @@
                 <input id="submit" type="submit" value="Kick!">
 
             </form>
+
+            <?php
+                mysqli_close($conn);
+            ?>
 
         </main>
 
