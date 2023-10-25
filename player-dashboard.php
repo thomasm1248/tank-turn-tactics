@@ -4,59 +4,59 @@
 
     <?php
     
-        // Connect to database
-        $host = "localhost";
-        $username = "root";
-        $password = "";
-        $database = "Game";
-        $conn = mysqli_connect($host, $username, $password, $database);
-        // Check if connection was successful
-        if (!$conn) {
-            print("fail");
-        }
+// Connect to database
+$host = "localhost";
+$username = "root";
+$password = "";
+$database = "Game";
+$conn = mysqli_connect($host, $username, $password, $database);
+// Check if connection was successful
+if (!$conn) {
+    print("fail");
+}
 
-        // Get session information
-        if(!isset($pagecode)) {
-            $pagecode = $_GET['session'];
-        }
-        if(!isset($playercode)) {
-            $playercode = $_GET['player'];
-        }
+// Get session information
+if(!isset($pagecode)) {
+    $pagecode = $_GET['session'];
+}
+if(!isset($playercode)) {
+    $playercode = $_GET['player'];
+}
 
-        // Get table row for player
-        $sql = "SELECT Tanks.tankid, Tanks.name, Tanks.bio, Tanks.shootrange, Tanks.lives, Tanks.actionpoints, Tanks.votingfor, Tanks.x, Tanks.y, Sessions.name AS sessionname, Sessions.status AS sessionstatus
+// Get table row for player
+$sql = "SELECT Tanks.tankid, Tanks.name, Tanks.bio, Tanks.shootrange, Tanks.lives, Tanks.actionpoints, Tanks.votingfor, Tanks.x, Tanks.y, Sessions.name AS sessionname, Sessions.status AS sessionstatus
 FROM `Tanks`
 JOIN `Sessions` ON Sessions.sessionid = Tanks.partofsession
 WHERE Sessions.pagecode = $pagecode
 AND Tanks.pagecode = $playercode;";
-        $result = mysqli_query($conn, $sql);
-        if(mysqli_num_rows($result)) {
-            $row = mysqli_fetch_array($result);
-            $playerid = $row['tankid'];
-            $name = $row['name'];
-            $bio = $row['bio'];
-            $range = $row['shootrange'];
-            $lives = $row['lives'];
-            $actionpoints = $row['actionpoints'];
-            $votingfor = $row['votingfor'];
-            $x = $row['x'];
-            $y = $row['y'];
-            $sessionname = $row['sessionname'];
-            $sessionstatus = $row['sessionstatus'];
-        } else {
-            $name = "Error: Invalid URL";
-        }
+$result = mysqli_query($conn, $sql);
+if(mysqli_num_rows($result)) {
+    $row = mysqli_fetch_array($result);
+    $playerid = $row['tankid'];
+    $name = $row['name'];
+    $bio = $row['bio'];
+    $range = $row['shootrange'];
+    $lives = $row['lives'];
+    $actionpoints = $row['actionpoints'];
+    $votingfor = $row['votingfor'];
+    $x = $row['x'];
+    $y = $row['y'];
+    $sessionname = $row['sessionname'];
+    $sessionstatus = $row['sessionstatus'];
+} else {
+    $name = "Error: Invalid URL";
+}
 
-        // Get list of players
-        $players = array();
-        $sql = "SELECT Tanks.tankid, Tanks.name, Tanks.x, Tanks.y, Tanks.lives, Tanks.actionpoints, Tanks.pagecode AS playercode
+// Get list of players
+$players = array();
+$sql = "SELECT Tanks.tankid, Tanks.name, Tanks.x, Tanks.y, Tanks.lives, Tanks.actionpoints, Tanks.pagecode AS playercode
 FROM Tanks
 JOIN Sessions ON Sessions.sessionid = Tanks.partofsession
 WHERE Sessions.pagecode = $pagecode;";
-        $result = mysqli_query($conn, $sql);
-        while($row = mysqli_fetch_array($result)) {
-            $players[] = $row;
-        }
+$result = mysqli_query($conn, $sql);
+while($row = mysqli_fetch_array($result)) {
+    $players[] = $row;
+}
 
     ?>
 
@@ -92,9 +92,12 @@ WHERE Sessions.pagecode = $pagecode;";
                 <h3>Lives</h3>
                 <div id="lives">
                     <?php
-                        for($i = 0; $i < $lives; $i+=1) {
-                            print("<img class='life-heart' src='images/heart.png'>");
-                        }
+
+// Display a variable number of heart images
+for($i = 0; $i < $lives; $i+=1) {
+    print("<img class='life-heart' src='images/heart.png'>");
+}
+
                     ?>
                 </div>
 
@@ -136,20 +139,22 @@ WHERE Sessions.pagecode = $pagecode;";
                             Player:
                             <select id="target" name="target">
 
-                    <!-- Create an option for each player -->
-                    <?php
-                        for($i=0; $i < sizeof($players); $i+=1) {
-                            if($players[$i]['tankid'] === $playerid) continue;
-                            $tx = $players[$i]['x'];
-                            $ty = $players[$i]['y'];
-                            $r = $range;
-                            if($tx >= $x-$r && $tx <= $x+$r && $ty >= $y-$r && $ty <= $y+$r) {
-                                $tankid = $players[$i]['tankid'];
-                                $playername = $players[$i]['name'];
-                                print("<option value=\"$tankid\">$playername</option>");
-                            }
-                        }
-                    ?>
+                                <!-- Create an option for each player -->
+                                <?php
+
+// Display list of players that can be targeted
+for($i=0; $i < sizeof($players); $i+=1) {
+    if($players[$i]['tankid'] === $playerid) continue;
+    $tx = $players[$i]['x'];
+    $ty = $players[$i]['y'];
+    $r = $range;
+    if($tx >= $x-$r && $tx <= $x+$r && $ty >= $y-$r && $ty <= $y+$r) {
+        $tankid = $players[$i]['tankid'];
+        $playername = $players[$i]['name'];
+        print("<option value=\"$tankid\">$playername</option>");
+    }
+}
+                                ?>
 
                             </select>
                         </label>
@@ -160,12 +165,14 @@ WHERE Sessions.pagecode = $pagecode;";
                             Number of Action Points to send:
                             <select id="action-points" name="action-points" value="1">
 
-                    <!-- Create an option for every amount of action points -->
-                    <?php
-                        for($i=1; $i <= $actionpoints; $i+=1) {
-                            print("<option>$i</option>");
-                        }
-                    ?>
+                                <!-- Create an option for every amount of action points -->
+                                <?php
+
+// Display options for how many action points can be sent
+for($i=1; $i <= $actionpoints; $i+=1) {
+    print("<option>$i</option>");
+}
+                                ?>
 
                             </select>
                         </label>
@@ -190,6 +197,7 @@ function l(id) {
     return document.getElementById(id);
 }
 
+// Show/Hide sections of the form based on what action is selected
 function updateForm() {
     var value = l("action").value;
     switch(value) {

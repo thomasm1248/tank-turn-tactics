@@ -46,22 +46,6 @@ function restoreDefaults() {
                     <input id="height" name="height" type="number" value="15" size="4" min="10" max="100">
                 </label><br>
 
-                <label>
-                    Players get a new action point every
-                    <input id="action-point-freq" name="action-point-freq" type="number" value="1" min="1" max="120" size="3">
-                    <select id="time-unit" name="time-unit" value="days">
-                        <option>days</option>
-                        <option>hours</option>
-                        <option>minutes</option>
-                    </select>
-                </label><br>
-
-                <input id="admin-name" name="admin-name" type="text" placeholder="admin username"><br>
-
-                <input id="password" name="password" type="password" placeholder="password"><br>
-
-                <input id="confirm-password" type="password" placeholder="confirm password"><br>
-
                 <button id="reset" type="button" onclick="restoreDefaults()">Restore Defaults</button>
                 <input id="submit" type="submit" value="Create New Session">
 
