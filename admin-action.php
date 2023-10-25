@@ -18,6 +18,7 @@ if (!$conn) {
 }
 
 // Preform action
+// TODO: authenticate admin
 if($action === 'kick') {
     $sql = "DELETE FROM Tanks WHERE tankid = $playerid;";
     $result = mysqli_query($conn, $sql);
@@ -25,6 +26,21 @@ if($action === 'kick') {
     $newplayercode = rand();
     $sql = "UPDATE Tanks SET pagecode = $newplayercode WHERE tankid = $playerid;";
     $result = mysqli_query($conn, $sql);
+} elseif($action === 'start-session') {
+    // Get current status
+    print("foo");
+    $sql = "SELECT status FROM Sessions WHERE pagecode = $pagecode;";
+    $status = mysqli_fetch_array(mysqli_query($conn, $sql))['status'];
+    // If status is waiting, change it to running
+    if($status === 'waiting') {
+        $sql = "UPDATE Sessions SET status = 'running' WHERE pagecode = $pagecode;";
+        mysqli_query($conn, $sql);
+        print("bar");
+    }
+} elseif($action === 'end-session') {
+    // Set status to ended
+    $sql = "UPDATE Sessions SET status = 'ended' WHERE pagecode = $pagecode;";
+    mysqli_query($conn, $sql);
 }
 
 // Close connection to database

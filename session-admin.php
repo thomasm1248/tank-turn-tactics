@@ -74,9 +74,21 @@ WHERE Sessions.pagecode = $pagecode;";
             <p><?php print($status);?></p>
 
             <?php if($status === 'waiting') { ?>
-                <button id="start-session">Start Session</button><br>
+                <form action="admin-action.php" method="post">
+                    <input type="hidden" name="session" value="<?php print($pagecode); ?>">
+                    <input type="hidden" name="admin" value="<?php print($admincode); ?>">
+                    <input type="hidden" name="action" value="start-session">
+                    <input id="start-session" type="submit" value="Start Session">
+                </form>
+            <?php }
+            if($status !== 'ended') { ?>
+            <form action="admin-action.php" method="post">
+                <input type="hidden" name="session" value="<?php print($pagecode); ?>">
+                <input type="hidden" name="admin" value="<?php print($admincode); ?>">
+                <input type="hidden" name="action" value="end-session">
+                <input id="end-session" type="submit" value="End Session">
+            </form>
             <?php } ?>
-            <button id="end-session">End Session</button>
             
             <h3>Players</h3>
             <table>
