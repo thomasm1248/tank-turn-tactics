@@ -54,6 +54,10 @@
             
             <h2><?php print($sessionname);?>: Session Admin</h2>
 
+            <p>Bookmark this page!</p>
+            
+            <p>Go <a href="session-home.php?session=<?php print($pagecode) ?>">here</a> to access the session page.</p>
+
             <h3>Status:</h3>
             <p><?php print($status);?></p>
 

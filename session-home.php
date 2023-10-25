@@ -19,8 +19,38 @@
         </nav>
 
         <main>
+
+            <?php
             
-            <h2><!-- Session Name -->Tanks Forever</h2>
+                // Connect to database
+                $host = "localhost";
+                $username = "root";
+                $password = "";
+                $database = "Game";
+                $conn = mysqli_connect($host, $username, $password, $database);
+                // Check if connection was successful
+                if (!$conn) {
+                    print("fail");
+                }
+
+                // Get session information
+                if(!isset($pagecode)) {
+                    $pagecode = $_GET['session'];
+                }
+
+                // Get table row for session
+                $sql = "SELECT `name`, `status` FROM `Sessions` WHERE `pagecode` = $pagecode;";
+                $result = mysqli_query($conn, $sql);
+                if(mysqli_num_rows($result)) {
+                    $row = mysqli_fetch_array($result);
+                    $sessionname = $row["name"];
+                } else {
+                    $sessionname = "Error: Invalid URL";
+                }
+
+            ?>
+            
+            <h2><?php print($sessionname); ?></h2>
 
             <h3>Player Login</h3>
             <form action="POST">
@@ -33,7 +63,7 @@
 
             </form>
 
-            <a href=""><h3>View Map</h3></a>
+            <a href="view-map.php?session=<?php print($pagecode); ?>"><h3>View Map</h3></a>
 
             <h3>Share This Session</h3>
             <p>Share this page with anyone who wants to watch this session.</p>
