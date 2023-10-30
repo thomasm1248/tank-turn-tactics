@@ -14,15 +14,29 @@ var config = {
 // Process data
 // Make a 2d array with tank objects
 var map = [];
-for(var i = 0; i < data.map.width; i++) map.push([]);
-for(var i = 0; i < data.tanks.length; i++) {
-    var tank = data.tanks[i];
-    map[tank.x][tank.y] = tank;
+function placeTanksOnMap() {
+    for(var i = 0; i < data.map.width; i++) map.push([]);
+    for(var i = 0; i < data.tanks.length; i++) {
+        var tank = data.tanks[i];
+        map[tank.x][tank.y] = tank;
+    }
 }
 
 // Setup the canvas
 var canvas = document.getElementById("map-viewer");
 var ctx = canvas.getContext("2d");
+
+// Initialize data with nothing
+data = {
+    map: {
+        width: 0,
+        height: 0
+    },
+    log: [
+    ],
+    tanks: [
+    ]
+};
 
 // Get a reference to info-box
 var infoBox = document.getElementById("info-box");
@@ -227,6 +241,20 @@ canvas.addEventListener("click", function(e) {
 
 // Display the log
 displayLog();
+
+// Get data from server every 10 seconds
+var req = new XMLHttpRequest();
+req.open("GET", "map-state.php", true);
+function refreshData() {
+    req.send();
+}
+req.onreadystatechange = function() {
+    data = json.parse(req.responsetext);
+    placeTanksOnMap();
+    // Do it again in 10 seconds
+    settimeout(refreshData, 10000);
+}
+refreshData();
 
 // Start running the animation function
 draw();

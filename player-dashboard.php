@@ -88,7 +88,11 @@ while($row = mysqli_fetch_array($result)) {
             <h3>Name: <?php print($name); ?></h3>
 
             <!-- Only show actions and information if session is running -->
-            <?php if($sessionstatus === "running") { ?>
+            <?php if($sessionstatus === "ended") { ?>
+                <p>This session has ended. Return to the session page to see the ranking.</p>
+            <?php } elseif($sessionstatus === "waiting") { ?>
+                <p>This session hasn't started yet. Wait for the session admin to start the session.</p>
+            <?php } elseif($lives > 0) { ?>
                 <h3>Lives</h3>
                 <div id="lives">
                     <?php
@@ -181,10 +185,8 @@ for($i=1; $i <= $actionpoints; $i+=1) {
                     <input id="submit" type="submit" value="Take Action!">
                             
                 </form>
-
-            <!-- When game is waiting or ended, display a message -->
             <?php } else { ?>
-                <p>The session isn't running</p>
+                <p> You are dead</p>
             <?php } ?>
 
             <?php mysqli_close($conn); ?>
