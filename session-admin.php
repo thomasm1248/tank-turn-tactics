@@ -81,6 +81,14 @@ while($row = mysqli_fetch_array($result)) {
                     <input id="start-session" type="submit" value="Start Session">
                 </form>
             <?php }
+            if($status === 'running') { ?>
+                <form action="admin-action.php" method="post">
+                    <input type="hidden" name="session" value="<?php print($pagecode); ?>">
+                    <input type="hidden" name="admin" value="<?php print($admincode); ?>">
+                    <input type="hidden" name="action" value="more-action-points">
+                    <input id="more-action-points" type="submit" value="More Action Points">
+                </form>
+            <?php }
             if($status !== 'ended') { ?>
             <form action="admin-action.php" method="post">
                 <input type="hidden" name="session" value="<?php print($pagecode); ?>">

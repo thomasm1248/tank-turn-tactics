@@ -41,6 +41,9 @@ if($action === 'kick') {
     // Set status to ended
     $sql = "UPDATE Sessions SET status = 'ended' WHERE pagecode = $pagecode;";
     mysqli_query($conn, $sql);
+} elseif($action === 'more-action-points') {
+    $sql = "UPDATE Tanks JOIN Sessions ON Sessions.sessionid = Tanks.partofsession SET Tanks.actionpoints = Tanks.actionpoints + 1 WHERE Sessions.pagecode = $pagecode;";
+    mysqli_query($conn, $sql);
 }
 
 // Close connection to database
