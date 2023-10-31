@@ -42,7 +42,17 @@ if($action === 'kick') {
     $sql = "UPDATE Sessions SET status = 'ended' WHERE pagecode = $pagecode;";
     mysqli_query($conn, $sql);
 } elseif($action === 'more-action-points') {
+    // Give every tank another action point
     $sql = "UPDATE Tanks JOIN Sessions ON Sessions.sessionid = Tanks.partofsession SET Tanks.actionpoints = Tanks.actionpoints + 1 WHERE Sessions.pagecode = $pagecode;";
+    mysqli_query($conn, $sql);
+    // Give tanks an additional action point if they've received three votes
+    $sql = "UPDATE Tanks AS Tank
+JOIN Sessions ON Sessions.sessionid = Tank.partofsession
+SET Tank.actionpoints = Tank.actionpoints + 1
+WHERE Sessions.pagecode = 2106985763
+AND (
+    SELECT COUNT(*) FROM Tanks AS subTank WHERE subTank.votingfor = Tank.tankid
+) >= 3;";
     mysqli_query($conn, $sql);
 }
 
