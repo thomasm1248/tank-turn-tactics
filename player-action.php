@@ -26,6 +26,7 @@ $action = $_POST['action'];
 $direction = $_POST['direction'];
 $targetplayer = $_POST['target'];
 $pointstosend = $_POST['action-points'];
+$votefor = $_POST['votefor'];
 
 // Connect to the database
 $host = "localhost";
@@ -126,13 +127,14 @@ if($action === 'move') {
     if($actionpoints >= $pointstosend) {
         $actionpoints -= $pointstosend;
         $targetpoints = getTankById($targetplayer, $othertanks)['actionpoints'] + $pointstosend;
-        print("($targetid, $targetpoints)");
         $sql = "UPDATE Tanks SET actionpoints = $actionpoints WHERE tankid = $playerid;";
         mysqli_query($conn, $sql);
         $sql = "UPDATE Tanks SET actionpoints = $targetpoints WHERE tankid = $targetplayer;";
         mysqli_query($conn, $sql);
-        print("foo");
     }
+} elseif($action === "vote") {
+    $sql = "UPDATE Tanks SET votingfor = $votefor WHERE Tanks.tankid = $playerid;";
+    mysqli_query($conn, $sql);
 }
 
 // Redirect back to the player dashboard page

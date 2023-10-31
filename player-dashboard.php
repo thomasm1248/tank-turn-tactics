@@ -24,9 +24,10 @@ if(!isset($playercode)) {
 }
 
 // Get table row for player
-$sql = "SELECT Tanks.tankid, Tanks.name, Tanks.bio, Tanks.shootrange, Tanks.lives, Tanks.actionpoints, Tanks.votingfor, Tanks.x, Tanks.y, Sessions.name AS sessionname, Sessions.status AS sessionstatus
+$sql = "SELECT Tanks.tankid, Tanks.name, Tanks.bio, Tanks.shootrange, Tanks.lives, Tanks.actionpoints, Tank.name AS namevotingfor, Tanks.x, Tanks.y, Sessions.name AS sessionname, Sessions.status AS sessionstatus
 FROM `Tanks`
 JOIN `Sessions` ON Sessions.sessionid = Tanks.partofsession
+LEFT JOIN Tanks AS Tank ON Tanks.votingfor = Tank.tankid
 WHERE Sessions.pagecode = $pagecode
 AND Tanks.pagecode = $playercode;";
 $result = mysqli_query($conn, $sql);
@@ -38,7 +39,7 @@ if(mysqli_num_rows($result)) {
     $range = $row['shootrange'];
     $lives = $row['lives'];
     $actionpoints = $row['actionpoints'];
-    $votingfor = $row['votingfor'];
+    $namevotingfor = $row['namevotingfor'];
     $x = $row['x'];
     $y = $row['y'];
     $sessionname = $row['sessionname'];
@@ -52,7 +53,8 @@ $players = array();
 $sql = "SELECT Tanks.tankid, Tanks.name, Tanks.x, Tanks.y, Tanks.lives, Tanks.actionpoints, Tanks.pagecode AS playercode
 FROM Tanks
 JOIN Sessions ON Sessions.sessionid = Tanks.partofsession
-WHERE Sessions.pagecode = $pagecode;";
+WHERE Sessions.pagecode = $pagecode
+AND Tanks.lives > 0;";
 $result = mysqli_query($conn, $sql);
 while($row = mysqli_fetch_array($result)) {
     $players[] = $row;
@@ -186,7 +188,35 @@ for($i=1; $i <= $actionpoints; $i+=1) {
                             
                 </form>
             <?php } else { ?>
-                <p> You are dead</p>
+                <p>You've been eliminated from the game, but you can still influence the outcome of the game by voting on someone who should receive an extra action point each day.</p>
+                <p>You are currently voting for <?php print($namevotingfor); ?></p>
+
+                <form action="player-action.php" method="post">
+                    
+                    <input type="hidden" name="session" value="<?php print($pagecode); ?>">
+                    <input type="hidden" name="player" value="<?php print($playercode); ?>">
+                    <input type="hidden" name="action" value="vote">
+
+                    <label>
+                        Update vote:
+                        <select id="votefor" name="votefor">
+                            <!-- add list of players within range -->
+                            <?php
+
+// Create an option for each living player
+for($i=0; $i < sizeof($players); $i+=1) {
+    $tankid = $players[$i]['tankid'];
+    $playername = $players[$i]['name'];
+    print("<option value=\"$tankid\">$playername</option>");
+}
+
+                            ?>
+                        </select>
+                    </label>
+
+                    <input id="submit" type="submit" value="Update Vote">
+
+                </form>
             <?php } ?>
 
             <?php mysqli_close($conn); ?>

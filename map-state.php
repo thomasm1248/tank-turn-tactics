@@ -34,7 +34,7 @@ while($row = mysqli_fetch_array($result)) {
 $actionlog_json = implode(',', $actionlog);
 
 // Generate tank data
-$sql = "SELECT Tanks.name, Tanks.bio, Tanks.lives, Tanks.actionpoints, Tanks.shootrange, Tanks.x, Tanks.y FROM Tanks JOIN Sessions ON Sessions.sessionid = Tanks.partofsession WHERE Sessions.pagecode = $pagecode;";
+$sql = "SELECT Tanks.name, Tanks.bio, Tanks.lives, Tanks.actionpoints, Tanks.shootrange, Tanks.x, Tanks.y FROM Tanks JOIN Sessions ON Sessions.sessionid = Tanks.partofsession WHERE Sessions.pagecode = $pagecode AND Tanks.lives > 0;";
 $result = mysqli_query($conn, $sql);
 $tanks = [];
 while($row = mysqli_fetch_array($result)) {
