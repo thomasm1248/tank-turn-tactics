@@ -20,7 +20,7 @@ $width = $row['width'];
 $height = $row['height'];
 
 // Generate action log data
-$sql = "SELECT Actions.actingtank, Actions.actiondescription FROM Actions JOIN Sessions ON Sessions.sessionid = Actions.tookplaceinsession WHERE Sessions.pagecode = $pagecode;";
+$sql = "SELECT Actions.actingtank, Actions.description FROM Actions JOIN Sessions ON Sessions.sessionid = Actions.partofsession WHERE Sessions.pagecode = $pagecode;";
 $result = mysqli_query($conn, $sql);
 $actionlog = [];
 while($row = mysqli_fetch_array($result)) {
