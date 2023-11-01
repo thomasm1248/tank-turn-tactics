@@ -154,7 +154,7 @@ if($action === 'move') {
 }
 
 // Redirect back to the player dashboard page
-include("player-dashboard.php");
 header("Location: $url/player-dashboard.php?session=$pagecode&player=$playercode");
+include("player-dashboard.php");
 
 ?>
