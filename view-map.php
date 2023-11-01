@@ -208,6 +208,10 @@ function drawMap() {
         ctx.fillText(i, -1, i+0.35);
     }
     // Draw ranges
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(0.1, 0.1, data.map.width-0.2, data.map.height-0.2);
+    ctx.clip();
     for(var i = 0; i < data.tanks.length; i++) {
         ctx.save();
         ctx.translate(data.tanks[i].x+0.5, data.tanks[i].y+0.5);
@@ -217,6 +221,7 @@ function drawMap() {
         ctx.fillRect(-r-0.4, -r-0.4, r*2+0.8, r*2+0.8);
         ctx.restore();
     }
+    ctx.restore();
     // Draw tanks
     for(var i = 0; i < data.tanks.length; i++) {
         ctx.save();
