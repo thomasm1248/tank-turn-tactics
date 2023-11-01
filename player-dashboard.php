@@ -116,7 +116,8 @@ for($i = 0; $i < $lives; $i+=1) {
 
                     <label>
                         Action:
-                        <select id="action" name="action" value="move">
+                        <select id="action" name="action" value="">
+                            <option></option>
                             <option value="move">Move</option>
                             <option value="shoot">Shoot</option>
                             <option value="upgrade-range">Upgrade Range</option>
@@ -127,7 +128,8 @@ for($i = 0; $i < $lives; $i+=1) {
                     <div id="direction-select" style="display: block">
                         <label>
                             Direction:
-                            <select id="direction" name="direction">
+                            <select id="direction" name="direction" value="">
+                                <option></option>
                                 <option>N</option>
                                 <option>NE</option>
                                 <option>E</option>
