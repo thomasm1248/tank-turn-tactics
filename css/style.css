@@ -102,3 +102,22 @@ main input[type="number"], main select, main option {
 .life-heart {
     width: 3em;
 }
+
+/* Table rules */
+
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 2px solid #aaa;   
+    padding: 0.3em;
+}
+
+th {
+    color: #cdd0d3;
+    background-color: #202c2e;
+}
+
+td {
+}
