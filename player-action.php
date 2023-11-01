@@ -125,6 +125,9 @@ if($action === 'move') {
         $updatedlives = $targettank['lives'];
         $targetid = $targettank['id'];
         $sql = "UPDATE Tanks SET lives = $updatedlives WHERE tankid = $targetid;";
+        if($updatedlives === 0) {
+            $sql = "UPDATE Tanks SET lives = $updatedlives, deathdate = CURRENT_TIMESTAMP WHERE tankid = $targetid;";
+        }
         mysqli_query($conn, $sql);
         $sql = "UPDATE Tanks SET actionpoints = $actionpoints WHERE tankid = $playerid;";
         mysqli_query($conn, $sql);
