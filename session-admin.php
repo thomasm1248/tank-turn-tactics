@@ -122,9 +122,15 @@ for($i = 0; $i < sizeof($players); $i+=1) {
     $playercode = $players[$i]['playercode'];
     print("<tr><td>$id</td>");
     print("<td>$name</td>");
-    print("<td>$x, $y</td>");
-    print("<td>$lives</td>");
-    print("<td>$actionpoints</td>");
+    if($lives > 0) {
+        print("<td>$x, $y</td>");
+        print("<td>$lives</td>");
+        print("<td>$actionpoints</td>");
+    } else {
+        print("<td>---</td>");
+        print("<td>Dead</td>");
+        print("<td>---</td>");
+    }
     print("<td><a href=\"player-dashboard.php?session=$pagecode&player=$playercode\">$name</a></td></tr>");
 }
 
