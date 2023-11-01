@@ -20,6 +20,9 @@ function getTankById($id, $tanks) {
 }
 
 function logAction($actiondesc) {
+    global $sessionid;
+    global $playerid;
+    global $conn;
     $sql = "INSERT INTO Actions(partofsession, actingtank, description) VALUES ($sessionid, $playerid, '$actiondesc');";
     mysqli_query($conn, $sql);
 }
