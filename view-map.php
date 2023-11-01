@@ -31,6 +31,7 @@ canvas {
     bottom: 0;
     right: 0;
     padding: 2em 2em;
+    overflow: scroll;
 }
 
 #info-box h2 {
