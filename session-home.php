@@ -72,7 +72,7 @@
 
                     <input id="player-name" name="player-name" type="text" placeholder="player name"><br>
 
-                    <textarea id="bio" name="bio" placeholder="player bio and/or contact info" cols="30" rows="15"></textarea><br>
+                    <textarea id="bio" name="bio" placeholder="player bio and contact info" cols="30" rows="15"></textarea><br>
 
                     <input id="join" type="submit" value="Join">
 
