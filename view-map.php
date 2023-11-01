@@ -207,12 +207,42 @@ function drawMap() {
     for(var i = 0; i < data.map.height; i++) {
         ctx.fillText(i, -1, i+0.35);
     }
+    // Draw ranges
+    for(var i = 0; i < data.tanks.length; i++) {
+        ctx.save();
+        ctx.translate(data.tanks[i].x+0.5, data.tanks[i].y+0.5);
+        ctx.fillStyle = "black";
+        ctx.globalAlpha = 0.1;
+        var r = data.tanks[i].range;
+        ctx.fillRect(-r-0.4, -r-0.4, r*2+0.8, r*2+0.8);
+        ctx.restore();
+    }
     // Draw tanks
     for(var i = 0; i < data.tanks.length; i++) {
         ctx.save();
         ctx.translate(data.tanks[i].x, data.tanks[i].y);
-        ctx.fillStyle = "blue";
+        // Draw square
+        ctx.fillStyle = "black";
         ctx.fillRect(0.1, 0.1, 0.8, 0.8);
+        // Draw lives
+        ctx.fillStyle = "red";
+        var x = 0.2;
+        var y = 0.7;
+        var shift = 0.2;
+        ctx.beginPath();
+        for(var j = 0; j < data.tanks[i].lives; j++) {
+            ctx.fillRect(x, y, 0.05, 0.1);
+            y -= shift;
+        }
+        // Draw action point tokens
+        ctx.fillStyle = "green";
+        var x = 0.75;
+        var y = 0.8;
+        var shift = 0.1;
+        for(var j = 0; j < data.tanks[i].action_points && j < 7; j++) {
+            ctx.fillRect(x, y, 0.1, 0.05);
+            y -= shift;
+        }
         ctx.restore();
     }
 }
