@@ -110,6 +110,12 @@ data = {
 // Get a reference to info-box
 var infoBox = document.getElementById("info-box");
 
+// Keep track of what the player is looking at in the info box
+var boxContents = {
+    type: "log",
+    player: ""
+};
+
 // Camera object
 var cam = {
     x: 0,
@@ -216,6 +222,35 @@ function displayLog() {
     }
     infoBox.innerHTML = content;
 }
+function displayTank(tank) {
+    infoBox.innerHTML = "<h2>"+tank.name+"</h2><div id='lives'></div><h3>Action Points: "+tank.action_points+"</h3><p>"+tank.bio+"</p>";
+    // Display a heart for each life the tank has
+    var images = "";
+    for(var i = 0; i < tank.lives; i++) {
+        images += "<img class='life-heart' src='images/heart.png'>";
+    }
+    document.getElementById("lives").innerHTML = images;
+}
+function getPlayerByName(name) {
+    for(var tank in data.tanks) {
+        if(tank.name === name) {
+            return tank;
+        }
+    }
+    return undefined;
+}
+function refreshInfoBox() {
+    if(boxContents.type === "log") {
+        displayLog();
+    } else {
+        var player = getPlayerByName(boxContents.player);
+        if(player !== undefined) {
+            displayTank(player);
+        } else {
+            displayLog();
+        }
+    }
+}
 
 // The draw function that repeats every animation frame
 function draw() {
@@ -302,22 +337,14 @@ canvas.addEventListener("click", function(e) {
         }
         if(cellContents === undefined) {
             displayLog();
+            boxContents.type = "log";
         } else {
-            // Display tank info
-            var tank = cellContents;
-            infoBox.innerHTML = "<h2>"+tank.name+"</h2><div id='lives'></div><h3>Action Points: "+tank.action_points+"</h3><p>"+tank.bio+"</p>";
-            // Display a heart for each life the tank has
-            var images = "";
-            for(var i = 0; i < tank.lives; i++) {
-                images += "<img class='life-heart' src='images/heart.png'>";
-            }
-            document.getElementById("lives").innerHTML = images;
+            displayTank(cellContents);
+            boxContents.type = "player";
+            boxContents.player = cellContents.name;
         }
     }
 }, false);
-
-// Display the log
-displayLog();
 
 // Get data from server every 10 seconds
 var req = new XMLHttpRequest();
@@ -332,6 +359,7 @@ req.onreadystatechange = function() {
     if(this.readyState === 4 && this.status === 200) {
         data = JSON.parse(this.responseText);
         placeTanksOnMap();
+        refreshInfoBox();
         // Setup camera if it hasn't been done yet
         if(!cameraIsSetup) {
             setupCamera();
