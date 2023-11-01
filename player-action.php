@@ -19,6 +19,11 @@ function getTankById($id, $tanks) {
     return null;
 }
 
+function logAction($actiondesc) {
+    $sql = "INSERT INTO Actions(partofsession, actingtank, description) VALUES ($sessionid, $playerid, '$actiondesc');";
+    mysqli_query($conn, $sql);
+}
+
 // Get POST values
 $pagecode = $_POST['session'];
 $playercode = $_POST['player'];
@@ -51,19 +56,21 @@ $x = $row['x'];
 $y = $row['y'];
 
 // Get info about the session
-$sql = "SELECT status, width, height FROM Sessions WHERE pagecode = $pagecode;";
+$sql = "SELECT sessionid, status, width, height FROM Sessions WHERE pagecode = $pagecode;";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_array($result);
+$sessionid = $row['sessionid'];
 $status = $row['status'];
 $width = $row['width'];
 $height = $row['height'];
 
 // Get info about the other living players
-$sql = "SELECT Tanks.x, Tanks.y, Tanks.tankid, Tanks.lives, Tanks.actionpoints FROM Tanks JOIN Sessions ON Sessions.pagecode = $pagecode WHERE Tanks.lives > 0 AND Tanks.tankid <> $playerid;";
+$sql = "SELECT Tanks.name, Tanks.x, Tanks.y, Tanks.tankid, Tanks.lives, Tanks.actionpoints FROM Tanks JOIN Sessions ON Sessions.pagecode = $pagecode WHERE Tanks.lives > 0 AND Tanks.tankid <> $playerid;";
 $result = mysqli_query($conn, $sql);
 $othertanks = array();
 while($row = mysqli_fetch_array($result)) {
     $tank = array(
+        'name' => $row['name'],
         'id' => $row['tankid'],
         'lives' => $row['lives'],
         'actionpoints' => $row['actionpoints'],
@@ -98,6 +105,7 @@ if($action === 'move') {
         // Update the position of the tank
         $sql = "UPDATE Tanks SET x = $x, y = $y, actionpoints = $actionpoints WHERE tankid = $playerid;";
         mysqli_query($conn, $sql);
+        logAction("Moved $direction");
     }
 } elseif($action === 'shoot') {
     // Get info about target tank
@@ -117,12 +125,15 @@ if($action === 'move') {
         mysqli_query($conn, $sql);
         $sql = "UPDATE Tanks SET actionpoints = $actionpoints WHERE tankid = $playerid;";
         mysqli_query($conn, $sql);
+        $targettankname = $targettankname['name'];
+        logAction("Shot $targettankname");
     }
 } elseif($action === 'upgrade-range') {
     $range += 1;
     $actionpoints -= 1;
     $sql = "UPDATE Tanks SET shootrange = $range, actionpoints = $actionpoints WHERE tankid = $playerid;";
     mysqli_query($conn, $sql);
+    logAction("Upgraded their range to $range");
 } elseif($action === 'give-ap') {
     if($actionpoints >= $pointstosend) {
         $actionpoints -= $pointstosend;
@@ -131,6 +142,8 @@ if($action === 'move') {
         mysqli_query($conn, $sql);
         $sql = "UPDATE Tanks SET actionpoints = $targetpoints WHERE tankid = $targetplayer;";
         mysqli_query($conn, $sql);
+        $targettankname = getTankById($targetplayer, $othertanks)['name'];
+        logAction("Gave $pointstosend action points to $targettankname");
     }
 } elseif($action === "vote") {
     $sql = "UPDATE Tanks SET votingfor = $votefor WHERE Tanks.tankid = $playerid;";
