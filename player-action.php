@@ -125,14 +125,16 @@ if($action === 'move') {
         $updatedlives = $targettank['lives'];
         $targetid = $targettank['id'];
         $sql = "UPDATE Tanks SET lives = $updatedlives WHERE tankid = $targetid;";
+        $targettankname = $targettank['name'];
+        $logtext = "Shot $targettankname";
         if($updatedlives === 0) {
             $sql = "UPDATE Tanks SET lives = $updatedlives, deathdate = CURRENT_TIMESTAMP WHERE tankid = $targetid;";
+            $logtext = "Killed $targettankname";
         }
         mysqli_query($conn, $sql);
         $sql = "UPDATE Tanks SET actionpoints = $actionpoints WHERE tankid = $playerid;";
         mysqli_query($conn, $sql);
-        $targettankname = $targettank['name'];
-        logAction("Shot $targettankname");
+        logAction($logtext);
     }
 } elseif($action === 'upgrade-range') {
     $range += 1;
