@@ -232,9 +232,9 @@ function displayTank(tank) {
     document.getElementById("lives").innerHTML = images;
 }
 function getPlayerByName(name) {
-    for(var tank in data.tanks) {
-        if(tank.name === name) {
-            return tank;
+    for(var i = 0; i < data.tanks.length; i++) {
+        if(data.tanks[i].name === name) {
+            return data.tanks[i];
         }
     }
     return undefined;
@@ -248,6 +248,7 @@ function refreshInfoBox() {
             displayTank(player);
         } else {
             displayLog();
+            boxContents.type = "log";
         }
     }
 }

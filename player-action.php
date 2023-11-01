@@ -128,7 +128,7 @@ if($action === 'move') {
         mysqli_query($conn, $sql);
         $sql = "UPDATE Tanks SET actionpoints = $actionpoints WHERE tankid = $playerid;";
         mysqli_query($conn, $sql);
-        $targettankname = $targettankname['name'];
+        $targettankname = $targettank['name'];
         logAction("Shot $targettankname");
     }
 } elseif($action === 'upgrade-range') {
