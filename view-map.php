@@ -212,7 +212,7 @@ function drawMap() {
         ctx.save();
         ctx.translate(data.tanks[i].x+0.5, data.tanks[i].y+0.5);
         ctx.fillStyle = "black";
-        ctx.globalAlpha = 0.1;
+        ctx.globalAlpha = 0.06;
         var r = data.tanks[i].range;
         ctx.fillRect(-r-0.4, -r-0.4, r*2+0.8, r*2+0.8);
         ctx.restore();
@@ -222,10 +222,10 @@ function drawMap() {
         ctx.save();
         ctx.translate(data.tanks[i].x, data.tanks[i].y);
         // Draw square
-        ctx.fillStyle = "black";
+        ctx.fillStyle = "#323232";
         ctx.fillRect(0.1, 0.1, 0.8, 0.8);
         // Draw lives
-        ctx.fillStyle = "red";
+        ctx.fillStyle = "#e33636";
         var x = 0.2;
         var y = 0.7;
         var shift = 0.2;
