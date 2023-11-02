@@ -32,6 +32,18 @@
             $sessionname = "Error: Invalid URL";
         }
 
+        // Get list of players
+        $players = array();
+        $sql = "SELECT Tanks.name, Tanks.lives, Tanks.deathdate
+        FROM Tanks
+        JOIN Sessions ON Sessions.sessionid = Tanks.partofsession
+        WHERE Sessions.pagecode = $pagecode
+        ORDER BY Tanks.lives DESC, Tanks.deathdate DESC;";
+        $result = mysqli_query($conn, $sql);
+        while($row = mysqli_fetch_array($result)) {
+            $players[] = $row;
+        }
+
     ?>
 
     <title><?php print($sessionname); ?></title>
@@ -77,6 +89,47 @@
                     <input id="join" type="submit" value="Join">
 
                 </form>
+            <?php } ?>
+
+            <!-- Show a table of all the players when the game ends -->
+            <?php if($status === "ended") { ?>
+                <p>This session has ended.</p>
+                <h3>Players</h3>
+                <table>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Lives Remaining</th>
+                        <th>Date of Death
+                    </tr>
+
+                    <?php 
+
+// Print out a table of the players' info
+for($i = 0; $i < sizeof($players); $i+=1) {
+    $name = $players[$i]['name'];
+    $lives = $players[$i]['lives'];
+    $deathdate = $players[$i]['deathdate'];
+    $rank = $i + 1;
+    print("<tr><td>$rank</td>");
+    print("<td>$name</td>");
+    if($lives > 0) {
+        print("<td>$lives</td>");
+        print("<td>---</td></tr>");
+    } else {
+        print("<td>Dead</td>");
+        print("<td>$deathdate</td></tr>");
+    }
+}
+
+// Leave a placeholder if there aren't any players yet
+if(sizeof($players) === 0) {
+    print("<tr><td colspan=\"4\">No players have joined yet.</td></tr>");
+}
+
+                    ?>
+
+                </table>
             <?php } ?>
 
             <h3>Share This Session</h3>
