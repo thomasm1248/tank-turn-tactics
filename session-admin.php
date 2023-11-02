@@ -136,7 +136,7 @@ for($i = 0; $i < sizeof($players); $i+=1) {
 
 // Leave a placeholder if there aren't any players yet
 if(sizeof($players) === 0) {
-    print("<tr><td colspan=\"4\">No players have joined yet.</td></tr>");
+    print("<tr><td colspan=\"6\">No players have joined yet.</td></tr>");
 }
 
                 ?>
