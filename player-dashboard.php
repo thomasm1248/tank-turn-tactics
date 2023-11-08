@@ -48,6 +48,11 @@ if(mysqli_num_rows($result)) {
     $name = "Error: Invalid URL";
 }
 
+// Start a PHP session (not to be confused with game session), and save the
+// current player's id
+session_start();
+$_SESSION['player'] = $playerid;
+
 // Get list of players
 $players = array();
 $sql = "SELECT Tanks.tankid, Tanks.name, Tanks.x, Tanks.y, Tanks.lives, Tanks.actionpoints, Tanks.pagecode AS playercode
