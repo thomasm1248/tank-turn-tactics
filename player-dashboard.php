@@ -6,8 +6,8 @@
     
 // Connect to database
 $host = "localhost";
-$username = "root";
-$password = "";
+$username = "admin";
+$password = "helloWorld1248";
 $database = "Game";
 $conn = mysqli_connect($host, $username, $password, $database);
 // Check if connection was successful
