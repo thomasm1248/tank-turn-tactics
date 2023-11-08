@@ -127,6 +127,41 @@ var cam = {
 // A function for setting up the camera after the first AJAX response
 var cameraIsSetup = false;
 function setupCamera() {
+    // Determine whether or not the user has already opened their dashboard
+    // and if they have, focus on their tank. Otherwise, configure the camera
+    // to fit the whole map in the viewport.
+    <?php
+        // Get the id of the last player dashboard viewed by the user
+        session_start();
+        if(isset($_SESSION['player'])) {
+            $playerid = $_SESSION['player'];
+        } else {
+            $playerid = -1;
+        }
+    ?>
+    var playerid = <?php print($playerid) ?>; // -1: no player
+    if(playerid >= 0) {
+        // Focus on player
+        var player;
+        for(var i = 0; i < data.tanks.length; i++) {
+            if(data.tanks[i].id == playerid) {
+                player = data.tanks[i];
+                break;
+            }
+        }
+        if(player !== undefined) {
+            // Focus on a single player
+            cam.x = player.x + 0.5;
+            cam.y = player.y + 0.5;
+            cam.zoom = 100;
+            // Set the info box to focuse on the player
+            boxContents.type = "player";
+            boxContents.player = player.id;
+            return;
+        }
+        // Continue on to fit the map to the viewport
+    }
+    // Fit map to viewport because focusing on a player didn't work
     // Get predicted dimensions of canvas
     var w = window.innerWidth - infoBox.offsetWidth;
     var h = window.innerHeight;
@@ -267,9 +302,9 @@ function displayTank(tank) {
     }
     document.getElementById("lives").innerHTML = images;
 }
-function getPlayerByName(name) {
+function getPlayerById(id) {
     for(var i = 0; i < data.tanks.length; i++) {
-        if(data.tanks[i].name === name) {
+        if(data.tanks[i].id === id) {
             return data.tanks[i];
         }
     }
@@ -279,7 +314,7 @@ function refreshInfoBox() {
     if(boxContents.type === "log") {
         displayLog();
     } else {
-        var player = getPlayerByName(boxContents.player);
+        var player = getPlayerById(boxContents.player);
         if(player !== undefined) {
             displayTank(player);
         } else {
@@ -378,7 +413,7 @@ canvas.addEventListener("click", function(e) {
         } else {
             displayTank(cellContents);
             boxContents.type = "player";
-            boxContents.player = cellContents.name;
+            boxContents.player = cellContents.id;
         }
     }
 }, false);
@@ -396,12 +431,14 @@ req.onreadystatechange = function() {
     if(this.readyState === 4 && this.status === 200) {
         data = JSON.parse(this.responseText);
         placeTanksOnMap();
-        refreshInfoBox();
         // Setup camera if it hasn't been done yet
         if(!cameraIsSetup) {
             setupCamera();
             cameraIsSetup = true;
         }
+        // This must be done after setting up the camera since the info box
+        // may have been set to view a particular player
+        refreshInfoBox();
         // Do it again in 10 seconds
         setTimeout(refreshData, 10000);
     }
