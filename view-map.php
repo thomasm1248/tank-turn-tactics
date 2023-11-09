@@ -307,6 +307,15 @@ function drawMap() {
             ctx.fillRect(x, y, 0.1, 0.05);
             y -= shift;
         }
+        // Draw votes
+        ctx.fillStyle = "yellow";
+        var x = 0.45;
+        var y = 0.7;
+        var shift = 0.15;
+        for(var j = 0; j < data.tanks[i].votes && j < 3; j++) {
+            ctx.fillRect(x, y, 0.1, 0.1);
+            y -= shift;
+        }
         ctx.restore();
     }
 }
@@ -318,7 +327,7 @@ function displayLog() {
     infoBox.innerHTML = content;
 }
 function displayTank(tank) {
-    infoBox.innerHTML = "<h2>"+tank.name+"</h2><div id='lives'></div><h3>Action Points: "+tank.action_points+"</h3><p>"+tank.bio+"</p>";
+    infoBox.innerHTML = "<h2>"+tank.name+"</h2><div id='lives'></div><h3>Action Points: "+tank.action_points+"</h3><h3>Votes Received: "+tank.votes+"</h3><p>"+tank.bio+"</p>";
     // Display a heart for each life the tank has
     var images = "";
     for(var i = 0; i < tank.lives; i++) {

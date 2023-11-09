@@ -34,7 +34,15 @@ while($row = mysqli_fetch_array($result)) {
 $actionlog_json = implode(',', $actionlog);
 
 // Generate tank data
-$sql = "SELECT Tanks.tankid, Tanks.name, Tanks.bio, Tanks.lives, Tanks.actionpoints, Tanks.shootrange, Tanks.x, Tanks.y FROM Tanks JOIN Sessions ON Sessions.sessionid = Tanks.partofsession WHERE Sessions.pagecode = $pagecode AND Tanks.lives > 0;";
+$sql = "SELECT Tanks.tankid, Tanks.name, Tanks.bio, Tanks.lives, Tanks.actionpoints, Tanks.shootrange, Tanks.x, Tanks.y, (
+    SELECT COUNT(*) FROM Tanks AS Voters
+	WHERE Voters.votingfor = Tanks.tankid
+) AS votes
+FROM Tanks
+JOIN Sessions
+ON Sessions.sessionid = Tanks.partofsession
+WHERE Sessions.pagecode = $pagecode
+AND Tanks.lives > 0;";
 $result = mysqli_query($conn, $sql);
 $tanks = [];
 while($row = mysqli_fetch_array($result)) {
@@ -44,6 +52,7 @@ while($row = mysqli_fetch_array($result)) {
     $lives = $row['lives'];
     $action_points = $row['actionpoints'];
     $range = $row['shootrange'];
+    $votes = $row['votes'];
     $x = $row['x'];
     $y = $row['y'];
     $tanks[] = "{
@@ -53,6 +62,7 @@ while($row = mysqli_fetch_array($result)) {
             \"lives\": $lives,
             \"action_points\": $action_points,
             \"range\": $range,
+            \"votes\": $votes,
             \"x\": $x,
             \"y\": $y
         }";
