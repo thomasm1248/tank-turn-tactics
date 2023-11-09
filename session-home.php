@@ -67,10 +67,8 @@
             
             <h2><?php print($sessionname); ?></h2>
 
-            <!-- Show link to map if session is running -->
-            <?php if($status === "running") { ?>
-                <a href="view-map.php?session=<?php print($pagecode); ?>"><h3>View Map</h3></a>
-            <?php } ?>
+            <!-- Show link to map -->
+            <a href="view-map.php?session=<?php print($pagecode); ?>"><h3>View Map</h3></a>
 
             <!-- Let players join session if session is waiting -->
             <?php if($status === "waiting") { ?>
