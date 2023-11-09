@@ -117,6 +117,9 @@ var boxContents = {
     player: ""
 };
 
+// Keep track of which tank the mouse is hovering over
+var hoveredTank = "";
+
 // Camera object
 var cam = {
     x: 0,
@@ -261,9 +264,30 @@ function drawMap() {
     for(var i = 0; i < data.tanks.length; i++) {
         ctx.save();
         ctx.translate(data.tanks[i].x, data.tanks[i].y);
+        ctx.save(); // For HTML5 Canvas shadow for highlighting
+        // Draw highlight if applicable
+        if(boxContents.type === "player" && data.tanks[i].id === boxContents.player) {
+            // Highlight because the user is viewing the tank's stats in infobox
+            ctx.shadowColor = "orange";
+            ctx.shadowBlur = 10;
+            ctx.strokeStyle = "orange";
+        } else if(data.tanks[i].id === hoveredTank) {
+            // Highlight because the mouse is hovering over the tank
+            ctx.shadowColor = "blue";
+            ctx.shadowBlur = 10;
+            ctx.strokeStyle = "blue";
+        } else {
+            // No highlight
+            ctx.strokeStyle = "transparent";
+        }
         // Draw square
         ctx.fillStyle = "#323232";
-        ctx.fillRect(0.1, 0.1, 0.8, 0.8);
+        ctx.beginPath();
+        ctx.rect(0.1, 0.1, 0.8, 0.8);
+        ctx.lineWidth = 0.1;
+        ctx.stroke();
+        ctx.fill();
+        ctx.restore(); // Revert back to no shadow
         // Draw lives
         ctx.fillStyle = "#e33636";
         var x = 0.2;
@@ -363,6 +387,19 @@ canvas.addEventListener("mousemove", function(e) {
         moveCam(mouse.prevX - mouse.x, mouse.prevY - mouse.y);
         // Don't let user move camera out of box
         bindCamToBox();
+    }
+    // Highlight tank if mouse is over it
+    var cell = getCamMouse();
+    cell.x = Math.floor(cell.x);
+    cell.y = Math.floor(cell.y);
+    var cellContents;
+    if(map[cell.x] !== undefined) {
+        cellContents = map[cell.x][cell.y];
+    }
+    if(cellContents === undefined) {
+        hoveredTank = "";
+    } else {
+        hoveredTank = cellContents.id;
     }
 }, false);
 canvas.addEventListener("gestureend", function(e) {
