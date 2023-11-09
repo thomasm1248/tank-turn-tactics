@@ -82,7 +82,7 @@
 
                     <input id="pagecode" name="pagecode" type="hidden" value="<?php print($pagecode); ?>">
 
-                    <input id="player-name" name="player-name" type="text" placeholder="player name"><br>
+                    <input id="player-name" name="player-name" type="text" placeholder="player name" autofocus><br>
 
                     <textarea id="bio" name="bio" placeholder="player bio and contact info" cols="30" rows="15"></textarea><br>
 
