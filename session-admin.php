@@ -174,7 +174,7 @@ for($i=0; $i < sizeof($players); $i+=1) {
                     <select id="action" name="action" value="">
                         <option value=""></option>
                         <option value="kick">Kick</option>
-                        <option value="refresh-url">Refresh URL</option>
+                        <option value="refresh-url">Generate New URL</option>
                     </select>
                 </label><br>
 
