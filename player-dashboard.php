@@ -130,7 +130,7 @@ for($i = 0; $i < $lives; $i+=1) {
                         </select>
                     </label><br>
 
-                    <div id="direction-select" style="display: block">
+                    <div id="direction-select" style="display: none">
                         <label>
                             Direction:
                             <select id="direction" name="direction" value="">
