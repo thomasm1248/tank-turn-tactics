@@ -19,13 +19,11 @@
         </nav>
 
         <main>
-            
-            <h2><!-- Session Name -->Tanks Forever</h2>
 
-            <p>That name is already taken.</p>
+            <p>There was an issue adding you to the session. Please double check that your username is unique, and try again.</p>
 
             <!-- add a link back to the session join page -->
-            <a href="">Back</a>
+            <a href="session-home.php?session=<?php print($_GET['session']); ?>">Back to session home</a>
         </main>
 
     </div>
